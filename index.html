@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ระบบมอบหมายงานและนิเทศทางการพยาบาล | หออภิบาลอายุรศาสตร์ 3 (ICU MED 3)</title> 
+
+  <!-- ตั้งค่าเปิดเต็มจอเหมือนแอปมือถือ (iOS & Android Web App) -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="จ่ายเคส ICU MED 3">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0b2046">
+
+  <!-- ไอคอนแอปบนหน้าจอมือถือ (HomeScreen Icon & Favicon) -->
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/2830/2830284.png">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #0b2046;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    
+    /* หน้าจอ Loading สวยงามระหว่างโหลดเว็บแอป */
+    .loading-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1e3a8a 0%, #0b2046 100%);
+      color: #ffffff;
+      z-index: 1;
+      transition: opacity 0.4s ease-out;
+    }
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top-color: #f59e0b;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+    .loading-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: 0.5px;
+    }
+    .loading-sub {
+      font-size: 12px;
+      color: #93c5fd;
+      margin-top: 4px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Iframe เต็มหน้าจอ 100% ไร้ขอบ */
+    .app-frame {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      border: none;
+      outline: none;
+      display: block;
+      z-index: 2;
+      background-color: #f8fafc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- จอแสดงผลระหว่างโหลดข้อมูล (จะซ่อนตัวอัตโนมัติเมื่อ iframe โหลดเสร็จ) -->
+  <div id="loadingOverlay" class="loading-container">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">ระบบจ่ายงานและนิเทศทางการพยาบาล</div>
+    <div class="loading-sub">หออภิบาลอายุรศาสตร์ 3 (ICU MED 3) ศิริราช</div>
+  </div>
+
+  <!-- Iframe แสดงผล Google Apps Script Web App -->
+  <iframe
+    id="gasFrame"
+    class="app-frame"
+    src="https://script.google.com/macros/s/AKfycbzyQ2I4QBKuD_cZUqTtfAtM8DoHSzLFJMCM1MdjWUx16cuZXt5GdT4s86IfKS0oZcAvAg/exec"
+    allow="geolocation; microphone; camera; clipboard-write; clipboard-read;"
+    sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-downloads"
+    onload="hideLoading()">
+  </iframe>
+
+  <script>
+    function hideLoading() {
+      const loader = document.getElementById('loadingOverlay');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 400);
+      }
+    }
+    // ป้องกันกรณีเครือข่ายช้า สั่งซ่อน Loading Screen อัตโนมัติหลัง 3 วินาที
+    setTimeout(hideLoading, 3000);
+  </script>
+</body>
+</html>
